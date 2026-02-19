@@ -55,9 +55,10 @@
   .golden-shimmer {
     background: linear-gradient(90deg,
         #ffffff 0%,
-        #ffffff 40%,
-        #ffcc00 50%,
-        #ffffff 60%,
+        #ffffff 35%,
+        #ffcc00 45%,
+        #00f2ff 55%,
+        #ffffff 65%,
         #ffffff 100%);
     background-size: 200% auto;
     -webkit-background-clip: text;
@@ -65,7 +66,7 @@
     color: transparent;
     /* Fallback for older browsers */
     -webkit-text-fill-color: transparent;
-    animation: shimmer 10s linear infinite;
+    animation: shimmer 12s linear infinite;
     display: inline-block;
   }
 }
