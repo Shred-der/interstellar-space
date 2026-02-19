@@ -39,7 +39,7 @@ const Hero = () => {
 
             <motion.h1
                 variants={itemVariants}
-                className="text-[clamp(2.5rem,12vw,8.5rem)] font-bold tracking-tighter mb-2 leading-[0.85] break-words md:break-normal"
+                className="text-[clamp(2.5rem,12vw,8.5rem)] font-bold tracking-tighter mb-2 leading-[0.85] break-words md:break-normal golden-shimmer"
             >
                 INTERSTELLAR
             </motion.h1>

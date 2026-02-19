@@ -12,9 +12,9 @@
   .glass-effect {
     @apply bg-white/5 backdrop-blur-md border border-white/10;
   }
-  
+
   .teal-gloss {
-    background: linear-gradient(135deg, rgba(0,242,255,0.8) 0%, rgba(255,255,255,0.4) 50%, rgba(0,242,255,0.8) 100%);
+    background: linear-gradient(135deg, rgba(0, 242, 255, 0.8) 0%, rgba(255, 255, 255, 0.4) 50%, rgba(0, 242, 255, 0.8) 100%);
   }
 }
 
@@ -39,4 +39,33 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: #444;
+}
+
+@layer utilities {
+  @keyframes shimmer {
+    0% {
+      background-position: -200% center;
+    }
+
+    100% {
+      background-position: 200% center;
+    }
+  }
+
+  .golden-shimmer {
+    background: linear-gradient(90deg,
+        #ffffff 0%,
+        #ffffff 40%,
+        #ffcc00 50%,
+        #ffffff 60%,
+        #ffffff 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    /* Fallback for older browsers */
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 10s linear infinite;
+    display: inline-block;
+  }
 }
