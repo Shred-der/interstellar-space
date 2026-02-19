@@ -22,17 +22,6 @@ function App() {
     // Calculate star speed multiplier based on scroll velocity
     const starSpeed = useTransform(smoothVelocity, [-2000, 0, 2000], [10, 1, 10])
 
-    // Mouse Parallax
-    const mouseX = useMotionValue(0)
-    const mouseY = useMotionValue(0)
-
-    const handleMouseMove = (e) => {
-        const { clientX, clientY } = e
-        const moveX = (clientX - window.innerWidth / 2) / 25
-        const moveY = (clientY - window.innerHeight / 2) / 25
-        mouseX.set(moveX)
-        mouseY.set(moveY)
-    }
 
     useEffect(() => {
         // Cinematic intro delay
@@ -48,7 +37,6 @@ function App() {
 
     return (
         <div
-            onMouseMove={handleMouseMove}
             className="relative w-full bg-[#050505] text-white selection:bg-primary/30 selection:text-white scroll-smooth overflow-x-hidden"
         >
             {/* Cinematic Intro Overlay */}
@@ -66,9 +54,7 @@ function App() {
                 <motion.div
                     style={{
                         scale: bgScale,
-                        filter: `blur(${bgBlur}px)`,
-                        x: mouseX,
-                        y: mouseY
+                        filter: `blur(${bgBlur}px)`
                     }}
                     initial={{ scale: 1.5, opacity: 0 }}
                     animate={{ scale: isLoaded ? 1 : 1.5, opacity: 1 }}
