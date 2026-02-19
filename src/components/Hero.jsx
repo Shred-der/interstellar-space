@@ -64,7 +64,7 @@ const Hero = () => {
             >
                 <button className="flex items-center justify-center gap-3 hover:scale-105 active:scale-95 transition-all px-7 md:px-9 py-3.5 md:py-4 rounded-custom font-bold text-white shadow-2xl shadow-primary/30 group teal-gloss border border-white/40 backdrop-blur-sm">
                     <Play size={18} className="fill-current group-hover:scale-110 transition-transform" />
-                    Launch Mission
+                    Watch Movie
                 </button>
                 <button className="px-7 md:px-9 py-3.5 md:py-4 rounded-custom font-bold text-white border border-white/20 hover:bg-white/10 transition-all backdrop-blur-sm hover:border-white/40 active:scale-95">
                     Mission Logs
