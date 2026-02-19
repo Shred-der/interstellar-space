@@ -30,9 +30,14 @@ function App() {
     }, [])
 
     // "Entering the Black Hole" scroll effects
-    const bgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.1, 1.8, 3.5]);
+    const rawBgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.15, 1.8, 3.5]);
+    const bgScale = useSpring(rawBgScale, { damping: 50, stiffness: 300 });
+
     const bgOpacity = useTransform(scrollYProgress, [0, 0.2, 0.5, 0.8, 1], [0.6, 0.4, 0.2, 0.1, 0.05]);
-    const bgBlur = useTransform(scrollYProgress, [0, 0.5, 1], [0, 10, 25]);
+
+    const rawBgBlur = useTransform(scrollYProgress, [0, 0.5, 1], [0, 10, 25]);
+    const bgBlur = useSpring(rawBgBlur, { damping: 50, stiffness: 300 });
+
     const starOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.4, 0.8, 0.2]);
 
     return (
@@ -44,7 +49,7 @@ function App() {
                 initial={{ opacity: 1 }}
                 animate={{ opacity: isLoaded ? 0 : 1 }}
                 transition={{ duration: 1.5, ease: "easeInOut" }}
-                className="fixed inset-0 z-[100] bg-black pointer-events-none flex items-center justify-center font-bold tracking-[1em] text-xs uppercase"
+                className="fixed inset-0 z-[100] bg-black pointer-events-none flex items-center justify-center px-6 text-center font-bold tracking-[0.6em] md:tracking-[1em] text-[10px] md:text-xs uppercase"
             >
                 Initiating Crossing...
             </motion.div>
@@ -60,7 +65,7 @@ function App() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 2, ease: "easeOut" }}
-                    className="w-full h-full"
+                    className="absolute -inset-4 md:-inset-10"
                 >
                     <motion.img
                         style={{ opacity: bgOpacity }}
