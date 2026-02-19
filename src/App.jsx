@@ -30,7 +30,7 @@ function App() {
     }, [])
 
     // "Entering the Black Hole" scroll effects
-    const rawBgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.2, 2.0, 4.0]);
+    const rawBgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.0, 1.8, 3.5]);
     const bgScale = useSpring(rawBgScale, { damping: 40, stiffness: 400 });
 
     const bgOpacity = useTransform(scrollYProgress, [0, 0.2, 0.5, 0.8, 1], [0.6, 0.4, 0.2, 0.1, 0.05]);
@@ -55,22 +55,17 @@ function App() {
             </motion.div>
 
             {/* Dynamic Background */}
-            <div className="fixed inset-0 h-[100dvh] z-0 overflow-hidden bg-black pointer-events-none">
+            <div className="fixed -inset-[10vh] z-0 overflow-hidden bg-black pointer-events-none">
                 <motion.div
                     style={{
                         scale: bgScale,
                         filter: `blur(${bgBlur}px)`,
-                        willChange: "transform",
-                        top: "50%",
-                        left: "50%",
-                        x: "-50%",
-                        y: "-50%",
-                        transformOrigin: "center center"
+                        willChange: "transform"
                     }}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 2, ease: "easeOut" }}
-                    className="absolute w-[120vw] h-[150vh] min-w-full min-h-full flex items-center justify-center"
+                    className="w-full h-full flex items-center justify-center"
                 >
                     <motion.img
                         style={{ opacity: bgOpacity }}
