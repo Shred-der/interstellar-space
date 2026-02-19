@@ -55,17 +55,22 @@ function App() {
             </motion.div>
 
             {/* Dynamic Background */}
-            <div className="fixed inset-0 z-0 overflow-hidden">
+            <div className="fixed inset-0 z-0 overflow-hidden bg-black pointer-events-none">
                 <motion.div
                     style={{
                         scale: bgScale,
                         filter: `blur(${bgBlur}px)`,
-                        willChange: "transform"
+                        willChange: "transform",
+                        top: "50%",
+                        left: "50%",
+                        x: "-50%",
+                        y: "-50%",
+                        transformOrigin: "center center"
                     }}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 2, ease: "easeOut" }}
-                    className="absolute -inset-4 md:-inset-10"
+                    className="absolute w-[110%] h-[110%] md:w-[120%] md:h-[120%]"
                 >
                     <motion.img
                         style={{ opacity: bgOpacity }}
