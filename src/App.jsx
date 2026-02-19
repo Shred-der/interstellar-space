@@ -30,7 +30,7 @@ function App() {
     }, [])
 
     // "Entering the Black Hole" scroll effects
-    const bgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.5, 3]);
+    const bgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.1, 1.8, 3.5]);
     const bgOpacity = useTransform(scrollYProgress, [0, 0.2, 0.5, 0.8, 1], [0.6, 0.4, 0.2, 0.1, 0.05]);
     const bgBlur = useTransform(scrollYProgress, [0, 0.5, 1], [0, 10, 25]);
     const starOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.4, 0.8, 0.2]);
@@ -54,10 +54,11 @@ function App() {
                 <motion.div
                     style={{
                         scale: bgScale,
-                        filter: `blur(${bgBlur}px)`
+                        filter: `blur(${bgBlur}px)`,
+                        willChange: "transform"
                     }}
-                    initial={{ scale: 1.5, opacity: 0 }}
-                    animate={{ scale: isLoaded ? 1 : 1.5, opacity: 1 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
                     transition={{ duration: 2, ease: "easeOut" }}
                     className="w-full h-full"
                 >
