@@ -12,6 +12,7 @@ function App() {
     const [isLoaded, setIsLoaded] = useState(false)
     const { scrollYProgress, scrollY } = useScroll();
     const scrollVelocity = useVelocity(scrollY)
+    const videoRef = React.useRef(null)
 
     // Smooth out the velocity for the "warp" effect
     const smoothVelocity = useSpring(scrollVelocity, {
@@ -22,20 +23,27 @@ function App() {
     // Calculate star speed multiplier based on scroll velocity
     const starSpeed = useTransform(smoothVelocity, [-2000, 0, 2000], [10, 1, 10])
 
-
     useEffect(() => {
         // Cinematic intro delay
         const timer = setTimeout(() => setIsLoaded(true), 500)
         return () => clearTimeout(timer)
     }, [])
 
+    useEffect(() => {
+        if (videoRef.current) {
+            videoRef.current.playbackRate = 0.5
+        }
+    }, [videoRef])
+
+    // Video playback settings: using native browser looping for better performance
+
     // "Entering the Black Hole" scroll effects
     const rawBgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.0, 1.8, 3.5]);
     const bgScale = useSpring(rawBgScale, { damping: 40, stiffness: 400 });
 
-    const bgOpacity = useTransform(scrollYProgress, [0, 0.2, 0.5, 0.8, 1], [0.6, 0.4, 0.2, 0.1, 0.05]);
+    const bgOpacity = useTransform(scrollYProgress, [0, 0.2, 0.5, 0.8, 1], [0.8, 0.6, 0.4, 0.2, 0.1]);
 
-    const rawBgBlur = useTransform(scrollYProgress, [0, 0.5, 1], [0, 10, 25]);
+    const rawBgBlur = useTransform(scrollYProgress, [0, 0.5, 1], [0, 8, 20]);
     const bgBlur = useSpring(rawBgBlur, { damping: 40, stiffness: 400 });
 
     const starOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.4, 0.8, 0.2]);
@@ -67,12 +75,22 @@ function App() {
                     transition={{ duration: 2, ease: "easeOut" }}
                     className="w-full h-full flex items-center justify-center"
                 >
-                    <motion.img
-                        style={{ opacity: bgOpacity }}
-                        src="/background-image.png"
-                        alt="Space Background"
+                    <motion.video
+                        ref={videoRef}
+                        style={{
+                            opacity: bgOpacity,
+                            filter: 'contrast(1.1) brightness(1.1) saturate(1.1)'
+                        }}
+                        src="/background-video.mp4"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="auto"
                         className="w-full h-full object-cover"
                     />
+                    {/* Dark Overlay for depth and quality enhancement */}
+                    <div className="absolute inset-0 bg-black/65 z-10" />
                 </motion.div>
 
                 <div className="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent pointer-events-none" />
