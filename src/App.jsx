@@ -8,6 +8,44 @@ import Mission from './components/Mission'
 import Data from './components/Data'
 import Chronicles from './components/Chronicles'
 
+const NavDot = ({ id }) => {
+    const [isActive, setIsActive] = useState(false);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) setIsActive(true);
+                else setIsActive(false);
+            },
+            { threshold: 0.5, rootMargin: "-10% 0px -10% 0px" }
+        );
+        const el = document.getElementById(id);
+        if (el) observer.observe(el);
+        return () => observer.disconnect();
+    }, [id]);
+
+    return (
+        <motion.a
+            href={`#${id}`}
+            animate={{
+                height: isActive ? 40 : 16,
+                backgroundColor: isActive ? "#00f2ff" : "rgba(255, 255, 255, 0.2)"
+            }}
+            className="w-1.5 rounded-full transition-colors hover:bg-white/40 cursor-pointer relative group"
+        >
+            {isActive && (
+                <motion.div
+                    layoutId="glow"
+                    className="absolute inset-0 rounded-full shadow-[0_0_15px_rgba(0,242,255,0.8)]"
+                />
+            )}
+            <span className="absolute right-6 top-1/2 -translate-y-1/2 bg-black/80 px-3 py-1.5 rounded-lg text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none uppercase tracking-[0.2em] border border-white/10 whitespace-nowrap">
+                {id}
+            </span>
+        </motion.a>
+    );
+};
+
 function App() {
     const [isLoaded, setIsLoaded] = useState(false)
     const { scrollYProgress, scrollY } = useScroll();
@@ -29,22 +67,12 @@ function App() {
         return () => clearTimeout(timer)
     }, [])
 
-    useEffect(() => {
-        if (videoRef.current) {
-            videoRef.current.playbackRate = 0.5
-        }
-    }, [videoRef])
-
     // Video playback settings: using native browser looping for better performance
-
     // "Entering the Black Hole" scroll effects
     const rawBgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.0, 1.8, 3.5]);
     const bgScale = useSpring(rawBgScale, { damping: 40, stiffness: 400 });
 
     const bgOpacity = useTransform(scrollYProgress, [0, 0.2, 0.5, 0.8, 1], [0.8, 0.6, 0.4, 0.2, 0.1]);
-
-    const rawBgBlur = useTransform(scrollYProgress, [0, 0.5, 1], [0, 8, 20]);
-    const bgBlur = useSpring(rawBgBlur, { damping: 40, stiffness: 400 });
 
     const starOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.4, 0.8, 0.2]);
 
@@ -67,7 +95,6 @@ function App() {
                 <motion.div
                     style={{
                         scale: bgScale,
-                        filter: `blur(${bgBlur}px)`,
                         willChange: "transform"
                     }}
                     initial={{ opacity: 0 }}
@@ -78,8 +105,7 @@ function App() {
                     <motion.video
                         ref={videoRef}
                         style={{
-                            opacity: bgOpacity,
-                            filter: 'contrast(1.1) brightness(1.1) saturate(1.1)'
+                            opacity: bgOpacity
                         }}
                         src="/background-video.mp4"
                         autoPlay
@@ -129,12 +155,11 @@ function App() {
                 <Chronicles />
             </div>
 
-            {/* Decorative vertical slider indicator */}
-            <div className="fixed right-4 md:right-8 top-1/2 -translate-y-1/2 hidden xl:flex flex-col gap-3 z-20">
-                <div className="w-1.5 h-4 bg-white/20 rounded-full transition-all hover:bg-white/40 cursor-pointer" />
-                <div className="w-1.5 h-10 bg-primary rounded-full shadow-[0_0_15px_rgba(0,242,255,0.6)]" />
-                <div className="w-1.5 h-4 bg-white/20 rounded-full transition-all hover:bg-white/40 cursor-pointer" />
-                <div className="w-1.5 h-4 bg-white/20 rounded-full transition-all hover:bg-white/40 cursor-pointer" />
+            {/* Interactive vertical slider indicator */}
+            <div className="fixed right-4 md:right-8 top-1/2 -translate-y-1/2 hidden xl:flex flex-col items-center gap-4 z-20">
+                {['home', 'mission', 'data', 'chronicles'].map((id) => (
+                    <NavDot key={id} id={id} />
+                ))}
             </div>
         </div>
     )
